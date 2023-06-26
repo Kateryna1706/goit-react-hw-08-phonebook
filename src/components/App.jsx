@@ -1,37 +1,75 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { ContactForm } from './ContactForm/ContactForm';
 import { Filter } from './Filter/Filter';
 import { ContactList } from './ContactList/ContactList';
+import { nanoid } from 'nanoid';
 
 export class App extends Component {
   state = {
     contacts: [],
-    name: '',
+    filter: '',
+  };
+
+  addContact = (name, number) => {
+    const list = {
+      name,
+      number,
+      id: nanoid(),
+    };
+    this.setState(({ contacts }) => ({
+      contacts: [list, ...contacts],
+    }));
+  };
+
+  deleteContact = value => {
+    this.setState(({ contacts }) => ({
+      contacts: contacts.filter(({ id }) => id !== value),
+    }));
+  };
+
+  changeFilter = event => {
+    const { value } = event.currentTarget;
+    this.setState({
+      filter: value,
+    });
+  };
+
+  getVisibleContacts = () => {
+    const { contacts, filter } = this.state;
+
+    return contacts.filter(({ name }) =>
+      name.toLowerCase().includes(filter.toLowerCase())
+    );
   };
 
   render() {
+    const visibleContacts = this.getVisibleContacts();
+
     return (
       <div
         style={{
           height: '100vh',
           display: 'flex',
           justifyContent: 'center',
-          alignItems: 'center',
-          fontSize: 40,
+          flexDirection: 'column',
+          alignItems: 'flex-start',
+          padding: 20,
+          fontSize: 30,
           color: '#010101',
         }}
       >
         <h1>Phonebook</h1>
-        <ContactForm
-          type="text"
-          name="name"
-          pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-          title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-        />
-
-        <h2>Contacts</h2>
-        <Filter />
-        <ContactList />
+        <ContactForm onSubmit={this.addContact} />
+        {this.state.contacts.length !== 0 && <h2>Contacts</h2>}
+        {this.state.contacts.length !== 0 && (
+          <Filter value={this.state.filter} onChange={this.changeFilter} />
+        )}
+        {this.state.contacts.length !== 0 && (
+          <ContactList
+            contacts={visibleContacts}
+            onDelete={this.deleteContact}
+          />
+        )}
       </div>
     );
   }

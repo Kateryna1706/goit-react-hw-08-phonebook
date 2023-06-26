@@ -1,0 +1,23 @@
+.list {
+  font-size: 25px;
+}
+
+.listItem {
+  display: flex;
+  align-items: center;
+}
+
+.text {
+  margin-right: 10px;
+}
+
+.button {
+  display: flex;
+  border-width: 1px;
+  border-radius: 2%;
+  outline: none;
+  background-color: transparent;
+
+  box-shadow: 0px 2px 1px rgba(46, 47, 66, 0.08),
+    0px 1px 1px rgba(76, 79, 137, 0.16), 0px 1px 6px rgba(46, 47, 66, 0.08);
+}
