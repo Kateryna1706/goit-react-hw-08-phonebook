@@ -16,15 +16,22 @@ export class ContactForm extends Component {
   };
 
   handleSubmit = event => {
-    // if (isExist) {
-    //   alert(`${name} is already in contacts.`);
-    //   return
-    // }
-
     event.preventDefault();
-    const { name, number } = this.state;
+    const { name: nameInput, number } = this.state;
+    let isExist = '';
 
-    this.props.onSubmit(name, number);
+    this.props.contacts.map(
+      ({ name }) => (isExist = name === nameInput ? 'true' : 'false')
+    );
+
+    if (isExist) {
+      alert(`${nameInput} is already in contacts.`);
+      this.reset();
+      return;
+    }
+
+    this.props.onSubmit(nameInput, number);
+
     this.reset();
   };
 
@@ -63,7 +70,9 @@ export class ContactForm extends Component {
           />
         </label>
 
-        <button type="submit" className={css.button}>Add contact</button>
+        <button type="submit" className={css.button}>
+          Add contact
+        </button>
       </form>
     );
   }
@@ -71,4 +80,11 @@ export class ContactForm extends Component {
 
 ContactForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
+  contacts: PropTypes.arrayOf(
+    PropTypes.exact({
+      name: PropTypes.string.isRequired,
+      number: PropTypes.string.isRequired,
+      id: PropTypes.string.isRequired,
+    })
+  ),
 };

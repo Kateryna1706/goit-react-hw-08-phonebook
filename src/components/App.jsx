@@ -59,7 +59,10 @@ export class App extends Component {
         }}
       >
         <h1>Phonebook</h1>
-        <ContactForm onSubmit={this.addContact} />
+        <ContactForm
+          onSubmit={this.addContact}
+          contacts={this.state.contacts}
+        />
         {this.state.contacts.length !== 0 && <h2>Contacts</h2>}
         {this.state.contacts.length !== 0 && (
           <Filter value={this.state.filter} onChange={this.changeFilter} />
