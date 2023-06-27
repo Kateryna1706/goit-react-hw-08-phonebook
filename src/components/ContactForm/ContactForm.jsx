@@ -17,20 +17,20 @@ export class ContactForm extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    const { name: nameInput, number } = this.state;
-    let isExist = '';
+    const { name, number } = this.state;
+    // let isExist = '';
 
-    this.props.contacts.map(
-      ({ name }) => (isExist = name === nameInput ? 'true' : 'false')
-    );
+    // this.props.contacts.map(
+    //   ({ name }) => (isExist = name === nameInput ? 'true' : 'false')
+    // );
 
-    if (isExist) {
-      alert(`${nameInput} is already in contacts.`);
-      this.reset();
-      return;
-    }
+    // if (isExist) {
+    //   alert(`${nameInput} is already in contacts.`);
+    //   this.reset();
+    //   return;
+    // }
 
-    this.props.onSubmit(nameInput, number);
+    this.props.onSubmit(name, number, this.reset);
 
     this.reset();
   };

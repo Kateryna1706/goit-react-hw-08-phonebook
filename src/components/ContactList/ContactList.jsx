@@ -1,3 +1,4 @@
+// import { func } from 'prop-types';
 import css from './ContactList.module.css';
 import PropTypes from 'prop-types';
 
@@ -30,4 +31,5 @@ ContactList.propTypes = {
       id: PropTypes.string.isRequired,
     })
   ),
+  onDelete: PropTypes.func.isRequired,
 };
