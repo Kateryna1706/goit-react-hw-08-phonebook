@@ -69,11 +69,4 @@ export class ContactForm extends Component {
 
 ContactForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
-  contacts: PropTypes.arrayOf(
-    PropTypes.exact({
-      name: PropTypes.string.isRequired,
-      number: PropTypes.string.isRequired,
-      id: PropTypes.string.isRequired,
-    })
-  ),
 };

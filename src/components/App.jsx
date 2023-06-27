@@ -11,7 +11,9 @@ export class App extends Component {
   };
 
   addContact = (nameInput, number, reset) => {
-    let isExist = this.state.contacts.some(({ name }) => name === nameInput);
+    let isExist = this.state.contacts.some(
+      ({ name }) => name.toLowerCase() === nameInput.toLowerCase()
+    );
 
     if (isExist) {
       alert(`${nameInput} is already in contacts.`);
