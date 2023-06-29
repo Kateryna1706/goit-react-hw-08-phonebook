@@ -51,6 +51,12 @@ export class App extends Component {
     );
   };
 
+  componentDidMount() {}
+
+  componentDidUpdate() {}
+
+  componentWillUnmount() {}
+
   render() {
     const visibleContacts = this.getVisibleContacts();
 
