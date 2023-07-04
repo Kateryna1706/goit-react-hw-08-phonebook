@@ -5,7 +5,9 @@ import { ContactList } from './ContactList/ContactList';
 import { nanoid } from 'nanoid';
 
 export const App = () => {
-  const [contacts, setContacts] = useState([]);
+  const [contacts, setContacts] = useState(
+    () => JSON.parse(localStorage.getItem('contacts')) ?? []
+  );
   const [filterValue, setFilter] = useState('');
 
   const addContact = (nameInput, number, reset) => {
@@ -23,15 +25,11 @@ export const App = () => {
       number,
       id: nanoid(),
     };
-    setContacts(prevState => ({
-      contacts: [list, ...prevState],
-    }));
+    setContacts(prevState => [list, ...prevState]);
   };
 
   const deleteContact = value => {
-    setContacts(({ contacts }) => ({
-      contacts: contacts.filter(({ id }) => id !== value),
-    }));
+    setContacts(prevState => prevState.filter(({ id }) => id !== value));
   };
 
   const changeFilter = event => {
@@ -39,35 +37,10 @@ export const App = () => {
     setFilter(value);
   };
 
-  console.log(contacts);
-
-  const countVisibleContacts = () => contacts.filter(({ name }) =>
-    name.toLowerCase().includes(filterValue.toLowerCase())
-  );
-
-  console.log(countVisibleContacts());
-
-  // componentDidMount() {
-  //   const contacts = localStorage.getItem('contacts');
-  //   const parsedContacts = JSON.parse(contacts);
-  //   if (parsedContacts) {
-  //     this.setState({
-  //       contacts: parsedContacts,
-  //     });
-  //   }
-  // }
-
-  useEffect(() => {
-    const contacts = localStorage.getItem('contacts');
-    const parsedContacts = JSON.parse(contacts);
-    setContacts(parsedContacts ?? '');
-  }, []);
-
-  // componentDidUpdate(prevProps, prevState) {
-  //   if (this.state.contacts !== prevState.contacts) {
-  //     localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
-  //   }
-  // }
+  const countVisibleContacts = () =>
+    contacts.filter(({ name }) =>
+      name.toLowerCase().includes(filterValue.toLowerCase())
+    );
 
   useEffect(() => {
     localStorage.setItem('contacts', JSON.stringify(contacts));
@@ -93,7 +66,10 @@ export const App = () => {
         <Filter value={filterValue} onChange={changeFilter} />
       )}
       {contacts.length !== 0 && (
-        <ContactList contacts={countVisibleContacts()} onDelete={deleteContact} />
+        <ContactList
+          contacts={countVisibleContacts()}
+          onDelete={deleteContact}
+        />
       )}
     </div>
   );
