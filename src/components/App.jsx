@@ -1,17 +1,15 @@
-import { Component } from 'react';
+import { useState, useEffect } from 'react';
 import { ContactForm } from './ContactForm/ContactForm';
 import { Filter } from './Filter/Filter';
 import { ContactList } from './ContactList/ContactList';
 import { nanoid } from 'nanoid';
 
-export class App extends Component {
-  state = {
-    contacts: [],
-    filter: '',
-  };
+export const App = () => {
+  const [contacts, setContacts] = useState([]);
+  const [filterValue, setFilter] = useState('');
 
-  addContact = (nameInput, number, reset) => {
-    let isExist = this.state.contacts.some(
+  const addContact = (nameInput, number, reset) => {
+    let isExist = contacts.some(
       ({ name }) => name.toLowerCase() === nameInput.toLowerCase()
     );
 
@@ -25,77 +23,78 @@ export class App extends Component {
       number,
       id: nanoid(),
     };
-    this.setState(({ contacts }) => ({
-      contacts: [list, ...contacts],
+    setContacts(prevState => ({
+      contacts: [list, ...prevState],
     }));
   };
 
-  deleteContact = value => {
-    this.setState(({ contacts }) => ({
+  const deleteContact = value => {
+    setContacts(({ contacts }) => ({
       contacts: contacts.filter(({ id }) => id !== value),
     }));
   };
 
-  changeFilter = event => {
+  const changeFilter = event => {
     const { value } = event.currentTarget;
-    this.setState({
-      filter: value,
-    });
+    setFilter(value);
   };
 
-  getVisibleContacts = () => {
-    const { contacts, filter } = this.state;
+  console.log(contacts);
 
-    return contacts.filter(({ name }) =>
-      name.toLowerCase().includes(filter.toLowerCase())
-    );
-  };
+  const countVisibleContacts = () => contacts.filter(({ name }) =>
+    name.toLowerCase().includes(filterValue.toLowerCase())
+  );
 
-  componentDidMount() {
+  console.log(countVisibleContacts());
+
+  // componentDidMount() {
+  //   const contacts = localStorage.getItem('contacts');
+  //   const parsedContacts = JSON.parse(contacts);
+  //   if (parsedContacts) {
+  //     this.setState({
+  //       contacts: parsedContacts,
+  //     });
+  //   }
+  // }
+
+  useEffect(() => {
     const contacts = localStorage.getItem('contacts');
     const parsedContacts = JSON.parse(contacts);
-    if (parsedContacts) {
-      this.setState({
-        contacts: parsedContacts,
-      });
-    }
-  }
+    setContacts(parsedContacts ?? '');
+  }, []);
 
-  componentDidUpdate(prevProps, prevState) {
-    if (this.state.contacts !== prevState.contacts) {
-      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
-    }
-  }
+  // componentDidUpdate(prevProps, prevState) {
+  //   if (this.state.contacts !== prevState.contacts) {
+  //     localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+  //   }
+  // }
 
-  render() {
-    const visibleContacts = this.getVisibleContacts();
+  useEffect(() => {
+    localStorage.setItem('contacts', JSON.stringify(contacts));
+  }, [contacts]);
 
-    return (
-      <div
-        style={{
-          height: '100vh',
-          display: 'flex',
-          justifyContent: 'center',
-          flexDirection: 'column',
-          alignItems: 'flex-start',
-          padding: 20,
-          fontSize: 30,
-          color: '#010101',
-        }}
-      >
-        <h1>Phonebook</h1>
-        <ContactForm onSubmit={this.addContact} />
-        {this.state.contacts.length !== 0 && <h2>Contacts</h2>}
-        {this.state.contacts.length !== 0 && (
-          <Filter value={this.state.filter} onChange={this.changeFilter} />
-        )}
-        {this.state.contacts.length !== 0 && (
-          <ContactList
-            contacts={visibleContacts}
-            onDelete={this.deleteContact}
-          />
-        )}
-      </div>
-    );
-  }
-}
+  return (
+    <div
+      style={{
+        height: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+        padding: 20,
+        fontSize: 30,
+        color: '#010101',
+      }}
+    >
+      <h1>Phonebook</h1>
+      <ContactForm onSubmit={addContact} />
+      {contacts.length !== 0 && <h2>Contacts</h2>}
+      {contacts.length !== 0 && (
+        <Filter value={filterValue} onChange={changeFilter} />
+      )}
+      {contacts.length !== 0 && (
+        <ContactList contacts={countVisibleContacts()} onDelete={deleteContact} />
+      )}
+    </div>
+  );
+};
