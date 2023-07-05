@@ -13,8 +13,6 @@ const userSchema = Yup.object().shape({
 export const ContactForm = ({ onSubmit }) => {
   const handleSubmit = (values, actions) => {
     const { name, number } = values;
-    console.log(values.name);
-    console.dir(actions);
     onSubmit(name, number);
     actions.resetForm();
   };
