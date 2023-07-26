@@ -1,5 +1,4 @@
 import css from './Filter.module.css';
-import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { changeFilter } from '../../redux/actions';
 
@@ -8,6 +7,7 @@ export const Filter = () => {
 
   const handleFilterChange = event => {
     const { value } = event.currentTarget;
+
     dispatch(changeFilter(value));
   };
 
@@ -17,8 +17,4 @@ export const Filter = () => {
       <input type="text" name="filter" onChange={handleFilterChange} />
     </label>
   );
-};
-
-Filter.propTypes = {
-  value: PropTypes.string,
 };

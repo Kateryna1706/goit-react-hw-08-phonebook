@@ -2,7 +2,8 @@ import css from './ContactForm.module.css';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch } from 'react-redux';
-import { AddContact } from '../../redux/actions';
+import { addContact } from '../../redux/actions';
+import { useSelector } from 'react-redux';
 
 const initialValues = { name: '', number: '' };
 
@@ -12,11 +13,21 @@ const userSchema = Yup.object().shape({
 });
 
 export const ContactForm = () => {
+  const contacts = useSelector(state => state.contacts);
   const dispatch = useDispatch();
 
   const handleSubmit = (values, actions) => {
-    const { name, number } = values;
-    dispatch(AddContact(name, number));
+    const { name: valueName, number } = values;
+
+    let isExist = contacts.some(
+      ({ name }) => name.toLowerCase() === valueName.toLowerCase()
+    );
+    if (isExist) {
+      alert(`${valueName} is already in contacts.`);
+      return;
+    }
+
+    dispatch(addContact(valueName, number));
     actions.resetForm();
   };
 

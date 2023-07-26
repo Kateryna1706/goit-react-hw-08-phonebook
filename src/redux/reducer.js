@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
 
-const tasksInitialState = JSON.parse(localStorage.getItem('contacts')) ?? [];
+const contactsInitialState = JSON.parse(localStorage.getItem('contacts')) ?? [];
 
-const tasksReducer = (state = tasksInitialState, action) => {
+const contactsReducer = (state = contactsInitialState, action) => {
   switch (action.type) {
     case 'contacts/addContact':
       return [action.payload, ...state];
@@ -12,9 +12,9 @@ const tasksReducer = (state = tasksInitialState, action) => {
       return state;
   }
 };
-const filtersInitialState = '';
+const filterInitialState = '';
 
-const filtersReducer = (state = filtersInitialState, action) => {
+const filterReducer = (state = filterInitialState, action) => {
   switch (action.type) {
     case 'filter/changeFilter':
       return action.payload;
@@ -25,6 +25,6 @@ const filtersReducer = (state = filtersInitialState, action) => {
 };
 
 export const rootReducer = combineReducers({
-  tasks: tasksReducer,
-  filters: filtersReducer,
+  contacts: contactsReducer,
+  filter: filterReducer,
 });

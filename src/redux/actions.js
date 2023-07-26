@@ -1,16 +1,6 @@
 import { nanoid } from 'nanoid';
-import { useSelector } from 'react-redux';
 
-export const AddContact = (nameInput, number) => {
-  const contacts = useSelector(state => state.contacts);
-
-  let isExist = contacts.some(
-    ({ name }) => name.toLowerCase() === nameInput.toLowerCase()
-  );
-  if (isExist) {
-    alert(`${nameInput} is already in contacts.`);
-    return;
-  }
+export const addContact = (nameInput, number) => {
   return {
     type: 'contacts/addContact',
     payload: {
