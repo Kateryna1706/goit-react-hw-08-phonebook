@@ -1,7 +1,8 @@
 import css from './ContactForm.module.css';
-import PropTypes from 'prop-types';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import { useDispatch } from 'react-redux';
+import { AddContact } from '../../redux/actions';
 
 const initialValues = { name: '', number: '' };
 
@@ -10,10 +11,12 @@ const userSchema = Yup.object().shape({
   number: Yup.number().positive().integer().required(),
 });
 
-export const ContactForm = ({ onSubmit }) => {
+export const ContactForm = () => {
+  const dispatch = useDispatch();
+
   const handleSubmit = (values, actions) => {
     const { name, number } = values;
-    onSubmit(name, number);
+    dispatch(AddContact(name, number));
     actions.resetForm();
   };
 
@@ -49,8 +52,4 @@ export const ContactForm = ({ onSubmit }) => {
       </Form>
     </Formik>
   );
-};
-
-ContactForm.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
 };
