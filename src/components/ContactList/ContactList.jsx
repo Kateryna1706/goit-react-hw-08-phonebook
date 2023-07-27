@@ -5,14 +5,16 @@ import { useSelector } from 'react-redux';
 
 export const ContactList = () => {
   const dispatch = useDispatch();
-  const contacts = useSelector(state => state.contacts);
-  const filter = useSelector(state => state.filter);
+  const contacts = useSelector(state => state.contacts.contacts);
+  const filter = useSelector(state => state.filter.filter);
+  console.log(contacts);
 
-  const visibleContacts = contacts.filter(({ name }) =>
-    name.toLowerCase().includes(filter.toLowerCase())
-  );
+  const countVisibleContacts = () =>
+    contacts.filter(({ name }) =>
+      name.toLowerCase().includes(filter.toLowerCase())
+    );
 
-  console.log(visibleContacts);
+  const visibleContacts = countVisibleContacts();
 
   const handleDelete = id => dispatch(deleteContact(id));
 
