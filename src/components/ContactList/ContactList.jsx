@@ -7,7 +7,6 @@ export const ContactList = () => {
   const dispatch = useDispatch();
   const contacts = useSelector(state => state.contacts.contacts);
   const filter = useSelector(state => state.filter.filter);
-  console.log(contacts);
 
   const countVisibleContacts = () =>
     contacts.filter(({ name }) =>
