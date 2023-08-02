@@ -4,7 +4,7 @@ import * as Yup from 'yup';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { addContact } from '../../redux/operations';
-import * as selectors from 'redux/selectors';
+import { selectContacts } from 'redux/selectors';
 
 const initialValues = { name: '', number: '' };
 
@@ -14,7 +14,7 @@ const userSchema = Yup.object().shape({
 });
 
 export const ContactForm = () => {
-  const contacts = useSelector(selectors.selectContacts);
+  const contacts = useSelector(selectContacts);
   const dispatch = useDispatch();
 
   const handleSubmit = (values, actions) => {
