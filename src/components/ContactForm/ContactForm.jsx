@@ -18,19 +18,19 @@ export const ContactForm = () => {
   const dispatch = useDispatch();
 
   const handleSubmit = (values, actions) => {
-    const { name: valueName, number } = values;
+    const { name, number } = values;
 
     let isExist =
       contacts.length !== 0 &&
       contacts.some(
-        ({ name }) => name.toLowerCase() === valueName.toLowerCase()
+        (contact) => contact.name.toLowerCase() === name.toLowerCase()
       );
     if (isExist) {
-      alert(`${valueName} is already in contacts.`);
+      alert(`${name} is already in contacts.`);
       return;
     }
 
-    dispatch(addContact(valueName, number));
+    dispatch(addContact({ name, number }));
     actions.resetForm();
   };
 
