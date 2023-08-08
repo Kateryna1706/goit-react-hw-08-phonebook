@@ -4,7 +4,7 @@ import { refreshUser } from 'redux/auth/operations';
 import { useDispatch } from 'react-redux';
 import { useAuth } from 'hooks/useAuth';
 import { Navigation } from './Navigation/Navigation';
-import { AuthNav } from './AuthNav/AuthNav';
+
 
 const HomePage = lazy(() => import('pages/Home'));
 const RegisterPage = lazy(() => import('pages/Register'));
@@ -35,7 +35,8 @@ export const App = () => {
       }}
     >
       <Navigation />
-      <AuthNav />
+      
+
       <Suspense fallback={<div>Loading...</div>}>
         <Routes>
           <Route path="/" element={<HomePage />} />

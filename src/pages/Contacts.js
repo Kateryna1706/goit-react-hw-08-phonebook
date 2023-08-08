@@ -1,14 +1,15 @@
-import { ContactForm } from '../components/ContactForm/ContactForm';
-import { Filter } from '../components/Filter/Filter';
-import { ContactList } from '../components/ContactList/ContactList';
+import { ContactForm } from 'components/ContactForm/ContactForm';
+import { Filter } from 'components/Filter/Filter';
+import { ContactList } from 'components/ContactList/ContactList';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchContacts } from '../redux/contacts/operations';
+import { fetchContacts } from 'redux/contacts/operations';
 import {
   selectContacts,
   selectIsLoading,
   selectError,
 } from 'redux/contacts/selectors';
+import { useAuth } from 'hooks/useAuth';
 
 export default function Contacts() {
   const contacts = useSelector(selectContacts);
@@ -16,6 +17,7 @@ export default function Contacts() {
   const dispatch = useDispatch();
   const isLoading = useSelector(selectIsLoading);
   const error = useSelector(selectError);
+  const { isLoggedIn } = useAuth();
 
   useEffect(() => {
     dispatch(fetchContacts());
@@ -26,9 +28,13 @@ export default function Contacts() {
       <h1>Phonebook</h1>
       <ContactForm />
       {isLoading && !error && <b>Request in progress...</b>}
-      {contacts.length !== 0 && <h2>Contacts</h2>}
-      {contacts.length !== 0 && <Filter />}
-      {contacts.length !== 0 && <ContactList />}
+      {contacts.length !== 0 && isLoggedIn && (
+        <>
+          <h2>Contacts</h2>
+          <Filter />
+          <ContactList />
+        </>
+      )}
     </>
   );
 }
