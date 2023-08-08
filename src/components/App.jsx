@@ -1,23 +1,27 @@
-import { ContactForm } from './ContactForm/ContactForm';
-import { Filter } from './Filter/Filter';
-import { ContactList } from './ContactList/ContactList';
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchContacts } from '../redux/operations';
-import { selectContacts, selectIsLoading, selectError } from 'redux/selectors';
+import { Route, Routes } from 'react-router-dom';
+import { useEffect, lazy, Suspense } from 'react';
+import { refreshUser } from 'redux/auth/operations';
+import { useDispatch } from 'react-redux';
+import { useAuth } from 'hooks/useAuth';
+import { Navigation } from './Navigation/Navigation';
+import { AuthNav } from './AuthNav/AuthNav';
+
+const HomePage = lazy(() => import('pages/Home'));
+const RegisterPage = lazy(() => import('pages/Register'));
+const LoginPage = lazy(() => import('pages/Login'));
+const ContactsPage = lazy(() => import('pages/Contacts'));
 
 export const App = () => {
-  const contacts = useSelector(selectContacts);
-
   const dispatch = useDispatch();
-  const isLoading = useSelector(selectIsLoading);
-  const error = useSelector(selectError);
+  const { isRefreshing } = useAuth();
 
   useEffect(() => {
-    dispatch(fetchContacts());
+    dispatch(refreshUser());
   }, [dispatch]);
 
-  return (
+  return isRefreshing ? (
+    <b>Refreshing user...</b>
+  ) : (
     <div
       style={{
         height: '100vh',
@@ -30,12 +34,17 @@ export const App = () => {
         color: '#010101',
       }}
     >
-      <h1>Phonebook</h1>
-      <ContactForm />
-      {isLoading && !error && <b>Request in progress...</b>}
-      {contacts.length !== 0 && <h2>Contacts</h2>}
-      {contacts.length !== 0 && <Filter />}
-      {contacts.length !== 0 && <ContactList />}
+      <Navigation />
+      <AuthNav />
+      <Suspense fallback={<div>Loading...</div>}>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/contacts" element={<ContactsPage />} />
+          <Route path="*" element={<HomePage />} />
+        </Routes>
+      </Suspense>
     </div>
   );
 };

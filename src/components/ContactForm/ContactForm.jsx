@@ -3,8 +3,8 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import { addContact } from '../../redux/operations';
-import { selectContacts } from 'redux/selectors';
+import { addContact } from '../../redux/contacts/operations';
+import { selectContacts } from 'redux/contacts/selectors';
 
 const initialValues = { name: '', number: '' };
 
@@ -23,7 +23,7 @@ export const ContactForm = () => {
     let isExist =
       contacts.length !== 0 &&
       contacts.some(
-        (contact) => contact.name.toLowerCase() === name.toLowerCase()
+        contact => contact.name.toLowerCase() === name.toLowerCase()
       );
     if (isExist) {
       alert(`${name} is already in contacts.`);
