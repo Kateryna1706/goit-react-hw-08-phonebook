@@ -5,7 +5,10 @@ export const FormLogin = styled.div`
   width: 600px;
   margin-top: 20px;
   padding: 15px;
-  border: 1px solid #000;
+
+  box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px,
+    rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 48px;
+
   input {
     padding: 10px;
   }
@@ -22,6 +25,13 @@ export const Label = styled.label`
 export const Button = styled.button`
   display: block;
 
-  padding: 5px;
-  border: 1px solid #000;
+  padding: 10px;
+  border: none;
+  /* outline: none; */
+
+  color: #fff;
+
+  background-color: #7e57c2;
+  box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
+  cursor: pointer;
 `;

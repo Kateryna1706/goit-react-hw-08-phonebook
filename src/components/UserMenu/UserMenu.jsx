@@ -6,6 +6,7 @@ import {
   UserMenuButton,
   UserMenuParagraph,
 } from './UserMenu.styled';
+import { ReactComponent as Exit } from '../Icons/Icons.svg';
 
 export const UserMenu = () => {
   const dispatch = useDispatch();
@@ -15,7 +16,7 @@ export const UserMenu = () => {
     <UserMenuContainer>
       <UserMenuParagraph>Welcome, {user.name}</UserMenuParagraph>
       <UserMenuButton type="button" onClick={() => dispatch(logOut())}>
-        Logout
+        <Exit width="30" height="30" />
       </UserMenuButton>
     </UserMenuContainer>
   );

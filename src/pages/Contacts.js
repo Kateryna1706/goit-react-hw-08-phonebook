@@ -10,6 +10,7 @@ import {
   selectError,
 } from 'redux/contacts/selectors';
 import { useAuth } from 'hooks/useAuth';
+import { Container } from './Pages.styled';
 
 export default function Contacts() {
   const contacts = useSelector(selectContacts);
@@ -24,7 +25,7 @@ export default function Contacts() {
   }, [dispatch]);
 
   return (
-    <>
+    <Container>
       <h1>Phonebook</h1>
       <ContactForm />
       {isLoading && !error && <b>Request in progress...</b>}
@@ -35,6 +36,6 @@ export default function Contacts() {
           <ContactList />
         </>
       )}
-    </>
+    </Container>
   );
 }

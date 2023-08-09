@@ -1,12 +1,20 @@
 import styled from '@emotion/styled';
 
 export const List = styled.ul`
+  padding: 0;
   font-size: 25px;
 `;
 
 export const ListItem = styled.li`
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  width: 600px;
+  margin-top: 20px;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px,
+    rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 48px;
 `;
 
 export const Text = styled.span`
@@ -17,14 +25,12 @@ export const Text = styled.span`
 export const Button = styled.button`
   display: block;
 
-  padding: 5px;
-  border: 1px solid #000;
-  /* display: flex;
-  border-width: 1px;
-  border-radius: 2%;
-  outline: none;
-  background-color: transparent;
+  padding: 10px;
+  border: none;
 
-  box-shadow: 0px 2px 1px rgba(46, 47, 66, 0.08),
-    0px 1px 1px rgba(76, 79, 137, 0.16), 0px 1px 6px rgba(46, 47, 66, 0.08); */
+  color: #fff;
+
+  background-color: #7e57c2;
+  box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
+  cursor: pointer;
 `;
