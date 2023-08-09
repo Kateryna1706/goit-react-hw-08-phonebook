@@ -1,18 +1,22 @@
 import { useDispatch } from 'react-redux';
 import { logOut } from 'redux/auth/operations';
 import { useAuth } from 'hooks/useAuth';
-import { NavLink } from 'react-router-dom';
+import {
+  UserMenuContainer,
+  UserMenuButton,
+  UserMenuParagraph,
+} from './UserMenu.styled';
 
 export const UserMenu = () => {
   const dispatch = useDispatch();
   const { user } = useAuth();
 
   return (
-    <div>
-      <p>Welcome, {user.name}</p>
-      <button type="button" onClick={() => dispatch(logOut())}>
-        <NavLink to="/">Logout</NavLink>
-      </button>
-    </div>
+    <UserMenuContainer>
+      <UserMenuParagraph>Welcome, {user.name}</UserMenuParagraph>
+      <UserMenuButton type="button" onClick={() => dispatch(logOut())}>
+        Logout
+      </UserMenuButton>
+    </UserMenuContainer>
   );
 };

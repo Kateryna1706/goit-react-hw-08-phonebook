@@ -1,10 +1,10 @@
-import css from './ContactForm.module.css';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { addContact } from '../../redux/contacts/operations';
 import { selectContacts } from 'redux/contacts/selectors';
+import { Label, FormContact, Button } from './ContactForm.styled';
 
 const initialValues = { name: '', number: '' };
 
@@ -35,35 +35,35 @@ export const ContactForm = () => {
   };
 
   return (
-    <Formik
-      initialValues={initialValues}
-      validationSchema={userSchema}
-      onSubmit={handleSubmit}
-    >
-      <Form className={css.form}>
-        <label className={css.label}>
-          <span className={css.text}>Name:</span>
-          <Field
-            type="text"
-            name="name"
-            title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-          />
-          <ErrorMessage name="name" component="div" />
-        </label>
-        <label className={css.label}>
-          <span className={css.text}>Number:</span>
-          <Field
-            type="tel"
-            name="number"
-            title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-          />
-          <ErrorMessage name="number" component="div" />
-        </label>
+    <FormContact>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={userSchema}
+        onSubmit={handleSubmit}
+      >
+        <Form>
+          <Label>
+            <span>Name:</span>
+            <Field
+              type="text"
+              name="name"
+              title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+            />
+            <ErrorMessage name="name" component="div" />
+          </Label>
+          <Label>
+            <span>Number:</span>
+            <Field
+              type="tel"
+              name="number"
+              title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
+            />
+            <ErrorMessage name="number" component="div" />
+          </Label>
 
-        <button type="submit" className={css.button}>
-          Add contact
-        </button>
-      </Form>
-    </Formik>
+          <Button type="submit">Add contact</Button>
+        </Form>
+      </Formik>
+    </FormContact>
   );
 };

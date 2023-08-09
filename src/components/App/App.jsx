@@ -3,8 +3,10 @@ import { useEffect, lazy, Suspense } from 'react';
 import { refreshUser } from 'redux/auth/operations';
 import { useDispatch } from 'react-redux';
 import { useAuth } from 'hooks/useAuth';
-import { Navigation } from './Navigation/Navigation';
-
+import { Navigation } from '../Navigation/Navigation';
+import PrivateRoute from '../PrivateRoute';
+import { RestrictedRoute } from '../RestrictedRoute';
+import { Container } from './App.styled';
 
 const HomePage = lazy(() => import('pages/Home'));
 const RegisterPage = lazy(() => import('pages/Register'));
@@ -22,30 +24,38 @@ export const App = () => {
   return isRefreshing ? (
     <b>Refreshing user...</b>
   ) : (
-    <div
-      style={{
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        flexDirection: 'column',
-        alignItems: 'flex-start',
-        padding: 20,
-        fontSize: 30,
-        color: '#010101',
-      }}
-    >
+    <Container>
       <Navigation />
-      
 
       <Suspense fallback={<div>Loading...</div>}>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/contacts" element={<ContactsPage />} />
-          <Route path="*" element={<HomePage />} />
+          <Route
+            path="/register"
+            element={
+              <RestrictedRoute
+                redirectTo="/contacts"
+                component={<RegisterPage />}
+              />
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <RestrictedRoute
+                redirectTo="/contacts"
+                component={<LoginPage />}
+              />
+            }
+          />
+          <Route
+            path="/contacts"
+            element={
+              <PrivateRoute redirectTo="/login" component={<ContactsPage />} />
+            }
+          />
         </Routes>
       </Suspense>
-    </div>
+    </Container>
   );
 };

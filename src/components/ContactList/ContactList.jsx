@@ -1,8 +1,8 @@
-import css from './ContactList.module.css';
 import { useDispatch } from 'react-redux';
 import { deleteContact } from '../../redux/contacts/operations';
 import { useSelector } from 'react-redux';
 import { selectVisibleContacts } from 'redux/contacts/selectors';
+import { Button, List, ListItem, Text } from './ContactList.styled';
 
 export const ContactList = () => {
   const dispatch = useDispatch();
@@ -12,21 +12,17 @@ export const ContactList = () => {
   const handleDelete = id => dispatch(deleteContact(id));
 
   return (
-    <ul className={css.list}>
+    <List>
       {visibleContacts.map(({ name, number, id }) => (
-        <li key={id} className={css.listItem}>
-          <span className={css.text}>
+        <ListItem key={id}>
+          <Text>
             {name}: {number}
-          </span>
-          <button
-            type="text"
-            onClick={() => handleDelete(id)}
-            className={css.button}
-          >
+          </Text>
+          <Button type="text" onClick={() => handleDelete(id)}>
             Delete
-          </button>
-        </li>
+          </Button>
+        </ListItem>
       ))}
-    </ul>
+    </List>
   );
 };

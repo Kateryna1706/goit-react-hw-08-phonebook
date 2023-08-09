@@ -1,34 +1,52 @@
 import { useDispatch } from 'react-redux';
 import { logIn } from 'redux/auth/operations';
+import { FormLogin, Label, Button } from './LoginForm.styled';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
+
+const initialValues = { email: '', password: '' };
+
+const userSchema = Yup.object().shape({
+  email: Yup.string().min(2).max(70).required(),
+  password: Yup.string().min(2).max(70).required(),
+});
 
 export const LoginForm = () => {
   const dispatch = useDispatch();
 
-  const handleSubmit = event => {
-    event.preventDefault();
-    const form = event.currentTarget;
-    const email = form.elements.email.value;
-    const password = form.elements.password.value;
+  const handleSubmit = (values, actions) => {
+    const { email, password } = values;
+
     dispatch(
       logIn({
         email,
         password,
       })
     );
-    form.reset();
+    actions.resetForm();
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Email
-        <input type="email" name="email" />
-      </label>
-      <label>
-        Password
-        <input type="password" name="password" />
-      </label>
-      <button type="submit">Log In</button>
-    </form>
+    <FormLogin>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={userSchema}
+        onSubmit={handleSubmit}
+      >
+        <Form>
+          <Label>
+            Email
+            <Field type="email" name="email" />
+            <ErrorMessage name="email" component="div" />
+          </Label>
+          <Label>
+            Password
+            <Field type="password" name="password" />
+            <ErrorMessage name="password" component="div" />
+          </Label>
+          <Button type="submit">Register</Button>
+        </Form>
+      </Formik>
+    </FormLogin>
   );
 };
